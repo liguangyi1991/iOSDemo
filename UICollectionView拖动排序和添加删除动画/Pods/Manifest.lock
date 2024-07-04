@@ -1,0 +1,22 @@
+PODS:
+  - Kingfisher (7.6.2)
+  - LookinServer (1.2.8):
+    - LookinServer/Core (= 1.2.8)
+  - LookinServer/Core (1.2.8)
+
+DEPENDENCIES:
+  - Kingfisher (~> 7.6.0)
+  - LookinServer
+
+SPEC REPOS:
+  https://mirrors.tuna.tsinghua.edu.cn/git/CocoaPods/Specs.git:
+    - Kingfisher
+    - LookinServer
+
+SPEC CHECKSUMS:
+  Kingfisher: 6c5449c6450c5239166510ba04afe374a98afc4f
+  LookinServer: 1b2b61c6402ae29fa22182d48f5cd067b4e99e80
+
+PODFILE CHECKSUM: e7c55614538a01ddbc3e732f14acda5a17e696c0
+
+COCOAPODS: 1.15.2

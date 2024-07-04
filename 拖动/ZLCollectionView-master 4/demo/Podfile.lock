@@ -1,0 +1,30 @@
+PODS:
+  - LookinServer (1.0.0)
+  - Masonry (1.1.0)
+  - MJRefresh (3.5.0)
+  - SDWebImage (5.9.5):
+    - SDWebImage/Core (= 5.9.5)
+  - SDWebImage/Core (5.9.5)
+
+DEPENDENCIES:
+  - LookinServer
+  - Masonry
+  - MJRefresh
+  - SDWebImage
+
+SPEC REPOS:
+  trunk:
+    - LookinServer
+    - Masonry
+    - MJRefresh
+    - SDWebImage
+
+SPEC CHECKSUMS:
+  LookinServer: 0002891cd3cec5e082a910e897dfe71b4f06b89e
+  Masonry: 678fab65091a9290e40e2832a55e7ab731aad201
+  MJRefresh: 6afc955813966afb08305477dd7a0d9ad5e79a16
+  SDWebImage: 0b2ba0d56479bf6a45ecddbfd5558bea93150d25
+
+PODFILE CHECKSUM: a911c1703fd0c36e63fbd34b0d77d8744bb43bbc
+
+COCOAPODS: 1.12.1
