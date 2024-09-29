@@ -158,38 +158,31 @@ extension EditViewController: SectionDecorationFlowLayoutDelegate {
     
 }
 
-//MARK: -- 拖拽代理
-extension EditViewController: UICollectionViewDropDelegate,UICollectionViewDragDelegate {
+// MARK: -- 拖拽代理
+extension EditViewController: UICollectionViewDropDelegate, UICollectionViewDragDelegate {
     // 识别到拖动，是否响应
     // 一次拖动一个；若一次拖动多个，则需要选中多个
     func collectionView(_ collectionView: UICollectionView, itemsForBeginning session: UIDragSession, at indexPath: IndexPath) -> [UIDragItem] {
         if indexPath.section == 0 {
             let item = editItems[indexPath.row]
             let itemData = "\(item.section)_\(item.item)_\(item.name)"
-            // NSItemProvider， 拖放处理时，携带数据的容器，通过对象初始化，该对象需满足 NSItemProviderWriting 协议
             let itemProvider = NSItemProvider(object: itemData as NSString)
-            //  从一个位置，拖到另一个时，代表潜在的数据item
             let dragItem = UIDragItem(itemProvider: itemProvider)
             dragItem.localObject = itemData
             return [dragItem]
-        }else{
+        } else {
             return [UIDragItem]()
         }
     }
-    /*
-    // 开始拖拽后，继续添加拖拽的任务，这里就不需要了，处理同`itemsForBeginning`方法
-    func collectionView(_ collectionView: UICollectionView, itemsForAddingTo session: UIDragSession, at indexPath: IndexPath, point: CGPoint) -> [UIDragItem] {
 
-    }
-     */
-    
     func collectionView(_ collectionView: UICollectionView, dragSessionWillBegin session: UIDragSession) {
         // 拖拽开始，可自行处理
     }
+
     func collectionView(_ collectionView: UICollectionView, dragSessionDidEnd session: UIDragSession) {
         // 拖拽结束，可自行处理
     }
-    // 除去拖拽时候的阴影
+
     func collectionView(_ collectionView: UICollectionView, dragPreviewParametersForItemAt indexPath: IndexPath) -> UIDragPreviewParameters? {
         guard let cell = collectionView.cellForItem(at: indexPath) else {
             return nil
@@ -202,48 +195,69 @@ extension EditViewController: UICollectionViewDropDelegate,UICollectionViewDragD
         }
         return previewParameters
     }
-    // 是否能放置
+
     func collectionView(_ collectionView: UICollectionView, canHandle session: UIDropSession) -> Bool {
         return true
     }
-    
-    // 处理拖动中放置的策略
-    // 四种分别：move移动；copy拷贝；forbidden禁止，即不能放置；cancel用户取消。
-    // 效果一般使用2种：.insertAtDestinationIndexPath 挤压移动；.insertIntoDestinationIndexPath 取代。
-    // 一般的用挤压的多
+
     func collectionView(_ collectionView: UICollectionView, dropSessionDidUpdate session: UIDropSession, withDestinationIndexPath destinationIndexPath: IndexPath?) -> UICollectionViewDropProposal {
-        if session.localDragSession != nil {
-            if collectionView.hasActiveDrag {
-                return UICollectionViewDropProposal(operation: .move, intent: .insertAtDestinationIndexPath)
-            } else {
-                return UICollectionViewDropProposal(operation: .copy, intent: .insertAtDestinationIndexPath)
-            }
-        } else {
-            return UICollectionViewDropProposal(operation: .forbidden)
-        }
+        print("Destination IndexPath: \(String(describing: destinationIndexPath))")
+
+        guard let destinationIndexPath = destinationIndexPath else {
+              return UICollectionViewDropProposal(operation: .cancel)
+          }
+
+          if destinationIndexPath.section == 0 {
+              return UICollectionViewDropProposal(operation: .move, intent: .insertAtDestinationIndexPath)
+          } else {
+              return UICollectionViewDropProposal(operation: .cancel)
+          }
+        
+//        guard let destinationIndexPath = destinationIndexPath else {
+//            if(destinationIndexPath?.section == 0)
+//            {
+//                return UICollectionViewDropProposal(operation: .move, intent: .insertAtDestinationIndexPath)
+//
+//            }
+//            return UICollectionViewDropProposal(operation: .forbidden)
+//        }
+//     
+//        return UICollectionViewDropProposal(operation: .cancel)
+//        if let sourceIndexPath = session.localDragSession?.items.first?.localObject as? IndexPath {
+//            if sourceIndexPath.section == 0 && destinationIndexPath.section != 0 {
+//                return UICollectionViewDropProposal(operation: .forbidden)
+//            }
+//        }
+//
+//        if session.localDragSession != nil {
+//            if collectionView.hasActiveDrag {
+//                return UICollectionViewDropProposal(operation: .move, intent: .insertAtDestinationIndexPath)
+//            } else {
+//                return UICollectionViewDropProposal(operation: .copy, intent: .insertAtDestinationIndexPath)
+//            }
+//        } else {
+//            return UICollectionViewDropProposal(operation: .forbidden)
+//        }
     }
-    // 结束放置时的处理
+
     func collectionView(_ collectionView: UICollectionView, performDropWith coordinator: UICollectionViewDropCoordinator) {
         guard let destinationIndexPath = coordinator.destinationIndexPath else {
             return
         }
+
         switch coordinator.proposal.operation {
         case .move:
             let items = coordinator.items
-            if let item = items.first,let sourceIndexPath = item.sourceIndexPath {
-                // 执行批量更新
+            if let item = items.first, let sourceIndexPath = item.sourceIndexPath {
                 collectionView.performBatchUpdates { [weak self] in
                     let obj = self?.editItems.remove(at: sourceIndexPath.row)
                     self?.editItems.insert(obj!, at: destinationIndexPath.row)
                     collectionView.deleteItems(at: [sourceIndexPath])
                     collectionView.insertItems(at: [destinationIndexPath])
                 }
-                // 将项目动画化到视图层次结构中的任意位置
                 coordinator.drop(item.dragItem, toItemAt: destinationIndexPath)
             }
-            break
         case .copy:
-            // 执行批量更新
             collectionView.performBatchUpdates { [weak self] in
                 var indexPaths = [IndexPath]()
                 for (index, item) in coordinator.items.enumerated() {
@@ -258,34 +272,27 @@ extension EditViewController: UICollectionViewDropDelegate,UICollectionViewDragD
                 }
                 collectionView.insertItems(at: indexPaths)
             }
-            break
         default:
             return
         }
     }
-    
-    // 当dropSession 完成时会被调用，不管结果如何。一般进行清理或刷新操作
+
     func collectionView(_ collectionView: UICollectionView, dropSessionDidEnd session: UIDropSession) {
         let animationsEnabled = UIView.areAnimationsEnabled
         UIView.setAnimationsEnabled(false)
         collectionView.reloadSections(IndexSet(integer: 0))
         UIView.setAnimationsEnabled(animationsEnabled)
     }
-    
-    // 当drop会话进入到 collectionView 的坐标区域内就会调用
-    func collectionView(_ collectionView: UICollectionView, dropSessionDidEnter session: UIDropSession) {
-    }
-    
-    // 当 dropSession 不在collectionView 目标区域的时候会被调用
-    func collectionView(_ collectionView: UICollectionView, dropSessionDidExit session: UIDropSession) {
 
-    }
-   
-    // 同属性 isSpringLoaded
+    func collectionView(_ collectionView: UICollectionView, dropSessionDidEnter session: UIDropSession) {}
+
+    func collectionView(_ collectionView: UICollectionView, dropSessionDidExit session: UIDropSession) {}
+
     func collectionView(_ collectionView: UICollectionView, shouldSpringLoadItemAt indexPath: IndexPath, with context: UISpringLoadedInteractionContext) -> Bool {
         true
     }
 }
+
 
 extension EditViewController {
     

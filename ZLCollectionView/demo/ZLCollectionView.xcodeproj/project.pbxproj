@@ -346,7 +346,7 @@
 				TargetAttributes = {
 					BE13FE5B1EFBA5E900AFCD90 = {
 						CreatedOnToolsVersion = 8.3.3;
-						DevelopmentTeam = B28EYZD36N;
+						DevelopmentTeam = QLD6CAGKDK;
 						ProvisioningStyle = Automatic;
 					};
 					BE13FE741EFBA5E900AFCD90 = {
@@ -652,7 +652,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CURRENT_PROJECT_VERSION = 1.2.0;
-				DEVELOPMENT_TEAM = B28EYZD36N;
+				DEVELOPMENT_TEAM = QLD6CAGKDK;
 				INFOPLIST_FILE = ZLCollectionView/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -672,7 +672,7 @@
 					"-iframework",
 					"\"${PODS_CONFIGURATION_BUILD_DIR}/SDWebImage\"",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.github.ZLCollectionView;
+				PRODUCT_BUNDLE_IDENTIFIER = com.github.ZLCollectionView5;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -683,7 +683,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CURRENT_PROJECT_VERSION = 1.2.0;
-				DEVELOPMENT_TEAM = B28EYZD36N;
+				DEVELOPMENT_TEAM = QLD6CAGKDK;
 				INFOPLIST_FILE = ZLCollectionView/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -703,7 +703,7 @@
 					"-iframework",
 					"\"${PODS_CONFIGURATION_BUILD_DIR}/SDWebImage\"",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.github.ZLCollectionView;
+				PRODUCT_BUNDLE_IDENTIFIER = com.github.ZLCollectionView5;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
