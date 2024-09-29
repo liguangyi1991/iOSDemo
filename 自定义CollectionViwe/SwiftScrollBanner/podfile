@@ -1,0 +1,8 @@
+source 'https://mirrors.tuna.tsinghua.edu.cn/git/CocoaPods/Specs.git'
+target 'SwiftScrollBanner' do
+  use_frameworks!
+  pod 'Kingfisher'
+  pod 'SnapKit'
+  pod 'LookinServer', '1.2.6', :configurations => ['Debug']
+
+end
