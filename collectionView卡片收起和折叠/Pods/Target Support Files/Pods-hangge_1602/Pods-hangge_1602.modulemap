@@ -1,0 +1,6 @@
+framework module Pods_hangge_1602 {
+  umbrella header "Pods-hangge_1602-umbrella.h"
+
+  export *
+  module * { export * }
+}
